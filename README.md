@@ -16,7 +16,7 @@ canopy-doctor check ./plugin/go
 
 ## Demo
 
-[Watch the 65-second Canopy Doctor demo](https://github.com/jerrygeorge360/canopy-preflight/releases/download/v0.3.0/canopy-preflight-demo-v0.3.0.mp4).
+[Watch the 59-second real-time Canopy Doctor demo](https://github.com/jerrygeorge360/canopy-preflight/releases/download/v0.3.0/canopy-preflight-terminal-demo-v0.3.0.mp4).
 
 Example result:
 
