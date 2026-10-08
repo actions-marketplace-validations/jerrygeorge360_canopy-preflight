@@ -1,0 +1,9 @@
+.DS_Store
+.idea/
+.vscode/
+.presentation-build/
+bin/
+dist/
+coverage.out
+*.test
+*.log

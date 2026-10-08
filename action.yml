@@ -1,0 +1,82 @@
+name: Canopy Doctor
+description: Run deterministic Canopy fork and plugin compatibility checks.
+
+inputs:
+  path:
+    description: Candidate project directory, relative to the workflow workspace.
+    required: false
+    default: .
+  format:
+    description: "Report format: human or json."
+    required: false
+    default: human
+  upstream-base:
+    description: Optional immutable 40-character upstream base commit SHA for CNPY004.
+    required: false
+  upstream-target:
+    description: Optional immutable 40-character upstream target commit SHA for CNPY004.
+    required: false
+  deployment-height:
+    description: Optional deployment height; supply with all other CNPY004 context values.
+    required: false
+  activation-height:
+    description: Optional activation height; supply with all other CNPY004 context values.
+    required: false
+  required-protocol-version:
+    description: Optional required protocol version; supply with all other CNPY004 context values.
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+      with:
+        go-version-file: ${{ github.action_path }}/go.mod
+        cache: false
+    - name: Build Canopy Doctor
+      id: build
+      shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+        ACTION_REF: ${{ github.action_ref }}
+      run: |
+        set -euo pipefail
+        binary="${RUNNER_TEMP}/canopy-doctor-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-0}"
+        version="${ACTION_REF:-dev}"
+        (
+          cd "$ACTION_PATH"
+          go build -buildvcs=false -trimpath -ldflags "-X main.version=${version}" -o "$binary" ./cmd/canopy-doctor
+        )
+        printf 'binary=%s\n' "$binary" >> "$GITHUB_OUTPUT"
+    - name: Check candidate
+      shell: bash
+      env:
+        CANOPY_DOCTOR_BINARY: ${{ steps.build.outputs.binary }}
+        CANOPY_DOCTOR_PATH: ${{ inputs.path }}
+        CANOPY_DOCTOR_FORMAT: ${{ inputs.format }}
+        CANOPY_DOCTOR_UPSTREAM_BASE: ${{ inputs.upstream-base }}
+        CANOPY_DOCTOR_UPSTREAM_TARGET: ${{ inputs.upstream-target }}
+        CANOPY_DOCTOR_DEPLOYMENT_HEIGHT: ${{ inputs.deployment-height }}
+        CANOPY_DOCTOR_ACTIVATION_HEIGHT: ${{ inputs.activation-height }}
+        CANOPY_DOCTOR_REQUIRED_PROTOCOL_VERSION: ${{ inputs.required-protocol-version }}
+      run: |
+        set -euo pipefail
+        args=(check "--format=${CANOPY_DOCTOR_FORMAT}")
+        if [[ -n "$CANOPY_DOCTOR_UPSTREAM_BASE" ]]; then
+          args+=(--upstream-base "$CANOPY_DOCTOR_UPSTREAM_BASE")
+        fi
+        if [[ -n "$CANOPY_DOCTOR_UPSTREAM_TARGET" ]]; then
+          args+=(--upstream-target "$CANOPY_DOCTOR_UPSTREAM_TARGET")
+        fi
+        if [[ -n "$CANOPY_DOCTOR_DEPLOYMENT_HEIGHT" ]]; then
+          args+=(--deployment-height "$CANOPY_DOCTOR_DEPLOYMENT_HEIGHT")
+        fi
+        if [[ -n "$CANOPY_DOCTOR_ACTIVATION_HEIGHT" ]]; then
+          args+=(--activation-height "$CANOPY_DOCTOR_ACTIVATION_HEIGHT")
+        fi
+        if [[ -n "$CANOPY_DOCTOR_REQUIRED_PROTOCOL_VERSION" ]]; then
+          args+=(--required-protocol-version "$CANOPY_DOCTOR_REQUIRED_PROTOCOL_VERSION")
+        fi
+        args+=("$CANOPY_DOCTOR_PATH")
+        "$CANOPY_DOCTOR_BINARY" "${args[@]}"

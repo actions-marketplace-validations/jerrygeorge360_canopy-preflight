@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "tool": {
+    "name": "canopy-doctor",
+    "version": "v0.1.0"
+  },
+  "target": "fixture",
+  "decision": "DO NOT RELEASE",
+  "findings": [
+    {
+      "rule_id": "CNPY001",
+      "code": "CNPY001-COUNT",
+      "severity": "high",
+      "decision": "DO NOT RELEASE",
+      "summary": "Registry counts differ.",
+      "details": "One transaction lacks a type URL.",
+      "evidence_locations": [
+        {
+          "path": "plugin/config.go",
+          "line": 12,
+          "detail": "supported transactions"
+        },
+        {
+          "path": "plugin/config.go",
+          "line": 18,
+          "detail": "type URLs"
+        }
+      ],
+      "remediation": "Align both arrays.",
+      "confidence": "high"
+    },
+    {
+      "rule_id": "CNPY002",
+      "code": "CNPY002-PREFIX-REVIEW",
+      "severity": "medium",
+      "decision": "REVIEW REQUIRED",
+      "summary": "Prefix needs review.",
+      "details": "The declaration is dynamic.",
+      "evidence_locations": [
+        {
+          "path": "plugin/prefix.go",
+          "line": 7,
+          "detail": "dynamic prefix declaration"
+        }
+      ],
+      "remediation": "Use a literal prefix.",
+      "confidence": "medium"
+    }
+  ]
+}

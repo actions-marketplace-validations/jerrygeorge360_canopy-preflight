@@ -1,0 +1,43 @@
+name: Bug report
+description: Report incorrect behavior or an unexpected failure
+title: "bug: "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Canopy Doctor version
+      placeholder: v0.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: decision
+    attributes:
+      label: Observed result
+      options:
+        - PASS
+        - REVIEW REQUIRED
+        - DO NOT RELEASE
+        - Operational error
+        - Crash
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide a minimal non-sensitive example and the exact command.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, architecture, Git version, and Go version if building from source.
+    validations:
+      required: true

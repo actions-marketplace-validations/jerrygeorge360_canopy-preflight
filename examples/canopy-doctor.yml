@@ -1,0 +1,29 @@
+name: Canopy Doctor
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      # Full history is required when upstream-base/upstream-target are used.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      # Replace the placeholder with the full commit SHA for a reviewed release.
+      - name: Check Canopy compatibility
+        uses: jerrygeorge360/canopy-preflight@<full-release-commit-sha>
+        with:
+          path: .
+          format: human
+          # Uncomment the complete groups below for CNPY004.
+          # upstream-base: 1111111111111111111111111111111111111111
+          # upstream-target: 2222222222222222222222222222222222222222
+          # deployment-height: 100000
+          # activation-height: 90000
+          # required-protocol-version: 2

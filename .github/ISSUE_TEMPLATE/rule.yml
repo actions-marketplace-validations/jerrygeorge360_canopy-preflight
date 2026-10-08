@@ -1,0 +1,32 @@
+name: Rule proposal
+description: Propose a new or changed Canopy compatibility rule
+title: "rule: "
+body:
+  - type: textarea
+    id: invariant
+    attributes:
+      label: Canopy invariant
+      description: State the exact compatibility condition.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Primary evidence
+      description: Link to immutable Canopy source, documentation, or protocol definitions.
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Decision boundaries
+      description: Explain PASS, REVIEW REQUIRED, and DO NOT RELEASE conditions.
+    validations:
+      required: true
+  - type: textarea
+    id: fixtures
+    attributes:
+      label: Fixtures
+      description: Describe one valid and one broken example.
+    validations:
+      required: true

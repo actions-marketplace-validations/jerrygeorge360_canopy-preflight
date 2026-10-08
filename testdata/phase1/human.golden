@@ -1,0 +1,19 @@
+Canopy Doctor
+Target: fixture
+Decision: DO NOT RELEASE
+Findings: 2
+
+[DO NOT RELEASE] CNPY001 CNPY001-COUNT
+Registry counts differ.
+Severity: high | Confidence: high
+Details: One transaction lacks a type URL.
+Evidence: plugin/config.go:12 - supported transactions
+Evidence: plugin/config.go:18 - type URLs
+Remediation: Align both arrays.
+
+[REVIEW REQUIRED] CNPY002 CNPY002-PREFIX-REVIEW
+Prefix needs review.
+Severity: medium | Confidence: medium
+Details: The declaration is dynamic.
+Evidence: plugin/prefix.go:7 - dynamic prefix declaration
+Remediation: Use a literal prefix.
