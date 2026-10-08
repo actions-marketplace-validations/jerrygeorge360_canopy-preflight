@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/jerrygeorge360/canopy-preflight/actions/workflows/ci.yml/badge.svg)](https://github.com/jerrygeorge360/canopy-preflight/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/jerrygeorge360/canopy-preflight)](https://github.com/jerrygeorge360/canopy-preflight/releases)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Canopy%20Doctor-blue?logo=github)](https://github.com/marketplace/actions/canopy-doctor)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 Canopy Preflight checks Canopy plugins and forks before release. Its command-line
